@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, User, UserPlus, Loader2, Sparkles, ChevronRight, Github } from 'lucide-react';
+import { Mail, Lock, User, UserPlus, Loader2, Sparkles, ChevronRight, Globe } from 'lucide-react';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 
@@ -224,7 +224,7 @@ const AuthPage: React.FC = () => {
             </div>
 
             <button className="w-full py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-white hover:bg-white/5 transition-all font-bold text-xs flex items-center justify-center gap-3">
-              <Github size={18} /> Continue with GitHub
+              <Globe size={18} /> Continue with GitHub
             </button>
           </div>
         </div>
