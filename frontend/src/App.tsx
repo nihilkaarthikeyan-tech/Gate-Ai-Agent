@@ -15,14 +15,13 @@ import Motivation from './pages/Motivation';
 import InterviewPrep from './pages/InterviewPrep';
 import Counselling from './pages/Counselling';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<Login />} />
 
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
