@@ -19,6 +19,7 @@ import analyticsRoutes from './routes/analytics.routes';
 import advancedRoutes from './routes/advanced.routes';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import { seedShortcuts } from './seed-shortcuts';
 
 const REQUIRED_ENV = ['DATABASE_URL', 'JWT_SECRET', 'ANTHROPIC_API_KEY'] as const;
 for (const key of REQUIRED_ENV) {
@@ -69,4 +70,5 @@ app.get('/health', (_req, res) => {
 
 app.listen(port, () => {
   console.log(`🚀 GATE AI Platform API running on port ${port}`);
+  seedShortcuts();
 });
