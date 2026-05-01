@@ -65,60 +65,60 @@ const AuthPage: React.FC = () => {
       <div className="w-full max-w-[440px] relative z-10">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8 space-y-3">
-          <div className="inline-flex w-14 h-14 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-2xl items-center justify-center shadow-[0_0_30px_rgba(79,70,229,0.3)]">
-            <Sparkles className="text-white" size={28} />
+          <div className="inline-flex w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-2xl items-center justify-center shadow-[0_0_30px_rgba(79,70,229,0.3)]">
+            <Sparkles className="text-white" size={24} />
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight font-heading">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-heading">
             GATE<span className="text-indigo-400">Agent</span>
           </h1>
         </div>
 
-        <div className="glass-card rounded-[2.5rem] border-white/5 shadow-2xl overflow-hidden">
+        <div className="glass-card rounded-[2rem] sm:rounded-[2.5rem] border-white/5 shadow-2xl overflow-hidden">
           {/* Toggle Tabs */}
-          <div className="flex p-2 bg-white/[0.02] border-b border-white/5">
+          <div className="flex p-1.5 bg-white/[0.02] border-b border-white/5">
             <button 
               onClick={() => setMode('login')}
-              className={`flex-1 py-3 text-sm font-bold rounded-2xl transition-all ${mode === 'login' ? 'bg-white/5 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
+              className={`flex-1 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl transition-all ${mode === 'login' ? 'bg-white/5 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
             >
               Sign In
             </button>
             <button 
               onClick={() => setMode('register')}
-              className={`flex-1 py-3 text-sm font-bold rounded-2xl transition-all ${mode === 'register' ? 'bg-white/5 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
+              className={`flex-1 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-2xl transition-all ${mode === 'register' ? 'bg-white/5 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
             >
               Register
             </button>
           </div>
 
-          <div className="p-10 pt-8 space-y-8">
+          <div className="p-6 sm:p-10 sm:pt-8 space-y-6 sm:space-y-8">
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
                 {mode === 'login' ? 'Welcome back' : 'Start your journey'}
               </h2>
-              <p className="text-slate-400 text-sm font-medium">
+              <p className="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed">
                 {mode === 'login' ? 'Enter your credentials to access your dashboard.' : 'Create an account to begin your GATE preparation.'}
               </p>
             </div>
 
             {mode === 'login' ? (
               /* LOGIN FORM */
-              <form onSubmit={handleLogin} className="space-y-5">
+              <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
                 {loginError && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-2xl flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] font-bold">!</div>
+                  <div className="p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] rounded-xl sm:rounded-2xl flex items-center gap-3">
+                    <div className="w-5 h-5 flex-shrink-0 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] font-bold">!</div>
                     {loginError}
                   </div>
                 )}
                 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email</label>
+                  <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email</label>
                   <div className="relative group">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
                     <input
                       type="email"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
+                      className="w-full bg-slate-900/40 border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
                       placeholder="name@example.com"
                       required
                     />
@@ -127,8 +127,8 @@ const AuthPage: React.FC = () => {
 
                 <div className="space-y-1.5">
                   <div className="flex justify-between items-center ml-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
-                    <a href="#" className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">Forgot?</a>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
+                    <a href="#" className="text-[10px] sm:text-[11px] font-bold text-indigo-400 hover:text-indigo-300">Forgot?</a>
                   </div>
                   <div className="relative group">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
@@ -136,7 +136,7 @@ const AuthPage: React.FC = () => {
                       type="password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
+                      className="w-full bg-slate-900/40 border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
                       placeholder="••••••••"
                       required
                     />
@@ -146,45 +146,45 @@ const AuthPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loginLoading}
-                  className="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl font-bold text-white shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2 text-sm mt-2"
+                  className="w-full py-3.5 sm:py-4 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl sm:rounded-2xl font-bold text-white shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2 text-sm mt-1 sm:mt-2"
                 >
                   {loginLoading ? <Loader2 className="animate-spin" size={20} /> : <>Sign In <ChevronRight size={18} /></>}
                 </button>
               </form>
             ) : (
               /* REGISTER FORM */
-              <form onSubmit={handleRegister} className="space-y-5">
+              <form onSubmit={handleRegister} className="space-y-4 sm:space-y-5">
                 {regError && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-2xl flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] font-bold">!</div>
+                  <div className="p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] rounded-xl sm:rounded-2xl flex items-center gap-3">
+                    <div className="w-5 h-5 flex-shrink-0 rounded-full bg-red-500/20 flex items-center justify-center text-[10px] font-bold">!</div>
                     {regError}
                   </div>
                 )}
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
+                  <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
                   <div className="relative group">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
                     <input
                       type="text"
                       value={regName}
                       onChange={(e) => setRegName(e.target.value)}
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
-                      placeholder="Karthik Nikh"
+                      className="w-full bg-slate-900/40 border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
+                      placeholder="Your Name"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email</label>
+                  <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email</label>
                   <div className="relative group">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
                     <input
                       type="email"
                       value={regEmail}
                       onChange={(e) => setRegEmail(e.target.value)}
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
+                      className="w-full bg-slate-900/40 border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
                       placeholder="name@example.com"
                       required
                     />
@@ -192,14 +192,14 @@ const AuthPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
+                  <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
                   <div className="relative group">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
                     <input
                       type="password"
                       value={regPassword}
                       onChange={(e) => setRegPassword(e.target.value)}
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
+                      className="w-full bg-slate-900/40 border border-white/10 rounded-xl sm:rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/5 transition-all text-white text-sm placeholder-slate-600"
                       placeholder="••••••••"
                       required
                     />
@@ -209,15 +209,15 @@ const AuthPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={regLoading}
-                  className="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl font-bold text-white shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2 text-sm mt-2"
+                  className="w-full py-3.5 sm:py-4 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl sm:rounded-2xl font-bold text-white shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2 text-sm mt-1 sm:mt-2"
                 >
                   {regLoading ? <Loader2 className="animate-spin" size={20} /> : <>Create Account <UserPlus size={18} /></>}
                 </button>
               </form>
             )}
 
-            <p className="text-center text-slate-500 font-medium text-[10px] pt-4">
-              By continuing, you agree to our <span className="text-slate-400 hover:underline cursor-pointer">Terms of Service</span> and <span className="text-slate-400 hover:underline cursor-pointer">Privacy Policy</span>.
+            <p className="text-center text-slate-500 font-medium text-[10px] pt-2 sm:pt-4 leading-relaxed">
+              By continuing, you agree to our <br className="sm:hidden" /> <span className="text-slate-400 hover:underline cursor-pointer">Terms</span> and <span className="text-slate-400 hover:underline cursor-pointer">Privacy Policy</span>.
             </p>
           </div>
         </div>
