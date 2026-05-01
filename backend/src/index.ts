@@ -33,7 +33,7 @@ const port = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: (process.env.CORS_ORIGIN || 'http://localhost:5173').trim(),
   credentials: true,
 }));
 app.use(express.json({ limit: '5mb' }));
