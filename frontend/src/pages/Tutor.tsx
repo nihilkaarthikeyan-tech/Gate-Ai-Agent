@@ -13,12 +13,16 @@ const Tutor: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    tutorApi.getSessions().then(res => setSessions(res.data));
+    tutorApi.getSessions()
+      .then(res => setSessions(res.data))
+      .catch(() => setSessions([]));
   }, []);
 
   useEffect(() => {
     if (currentSessionId) {
-      tutorApi.getSession(currentSessionId).then(res => setMessages(res.data.messages));
+      tutorApi.getSession(currentSessionId)
+        .then(res => setMessages(res.data.messages ?? []))
+        .catch(() => setMessages([]));
     } else {
       setMessages([]);
     }
@@ -57,9 +61,11 @@ const Tutor: React.FC = () => {
         (chunk) => {
           assistantContent += chunk;
           setMessages(prev => {
-            const updated = [...prev];
-            updated[updated.length - 1].content = assistantContent;
-            return updated;
+            if (prev.length === 0) return prev;
+            return [
+              ...prev.slice(0, -1),
+              { ...prev[prev.length - 1], content: assistantContent },
+            ];
           });
         },
         async () => {
