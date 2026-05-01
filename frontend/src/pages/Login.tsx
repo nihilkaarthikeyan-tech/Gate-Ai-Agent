@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, UserPlus, Loader2, Sparkles, ChevronRight, Globe } from 'lucide-react';
+import { Mail, Lock, User, UserPlus, Loader2, Sparkles, ChevronRight } from 'lucide-react';
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 
@@ -216,22 +216,11 @@ const AuthPage: React.FC = () => {
               </form>
             )}
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
-              <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
-                <span className="bg-[#0b0f1a] px-4">Secure Gateway</span>
-              </div>
-            </div>
-
-            <button className="w-full py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-white hover:bg-white/5 transition-all font-bold text-xs flex items-center justify-center gap-3">
-              <Globe size={18} /> Continue with GitHub
-            </button>
+            <p className="text-center text-slate-500 font-medium text-[10px] pt-4">
+              By continuing, you agree to our <span className="text-slate-400 hover:underline cursor-pointer">Terms of Service</span> and <span className="text-slate-400 hover:underline cursor-pointer">Privacy Policy</span>.
+            </p>
           </div>
         </div>
-
-        <p className="mt-8 text-center text-slate-500 font-medium text-xs">
-          By continuing, you agree to our <span className="text-slate-400 hover:underline cursor-pointer">Terms of Service</span> and <span className="text-slate-400 hover:underline cursor-pointer">Privacy Policy</span>.
-        </p>
       </div>
     </div>
   );
