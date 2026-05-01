@@ -4,7 +4,7 @@ import { Mail, Lock, User, UserPlus, Loader2, Sparkles, ChevronRight } from 'luc
 import { api } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 
-const AuthPage: React.FC = () => {
+const Login: React.FC = () => {
   const [mode, setMode] = useState<'login' | 'register'>('login');
   
   // Login State
@@ -128,7 +128,7 @@ const AuthPage: React.FC = () => {
                 <div className="space-y-1.5">
                   <div className="flex justify-between items-center ml-1">
                     <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
-                    <a href="#" className="text-[10px] sm:text-[11px] font-bold text-indigo-400 hover:text-indigo-300">Forgot?</a>
+                    <button type="button" className="text-[10px] sm:text-[11px] font-bold text-indigo-400 hover:text-indigo-300">Forgot?</button>
                   </div>
                   <div className="relative group">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
@@ -217,7 +217,7 @@ const AuthPage: React.FC = () => {
             )}
 
             <p className="text-center text-slate-500 font-medium text-[10px] pt-2 sm:pt-4 leading-relaxed">
-              By continuing, you agree to our <br className="sm:hidden" /> <span className="text-slate-400 hover:underline cursor-pointer">Terms</span> and <span className="text-slate-400 hover:underline cursor-pointer">Privacy Policy</span>.
+              By continuing, you agree to our <br className="sm:hidden" /> <button type="button" className="text-slate-400 hover:underline">Terms</button> and <button type="button" className="text-slate-400 hover:underline">Privacy Policy</button>.
             </p>
           </div>
         </div>
@@ -226,5 +226,6 @@ const AuthPage: React.FC = () => {
   );
 };
 
-export default AuthPage;
+export default Login;
+
 
