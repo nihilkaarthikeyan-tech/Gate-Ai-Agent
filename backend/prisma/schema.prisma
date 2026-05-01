@@ -1,0 +1,293 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [pgvector(map: "vector")]
+}
+
+model User {
+  id                    String                @id @default(uuid())
+  name                  String
+  email                 String                @unique
+  passwordHash          String
+  targetPaper           String?
+  examDate              DateTime?
+  hoursPerDay           Float?
+  planTier              String                @default("free")
+  createdAt             DateTime              @default(now())
+  studyPlan             StudyPlan?
+  testAttempts          TestAttempt[]
+  flashcardProgress     FlashcardProgress[]
+  doubtHistory          DoubtHistory[]
+  chatSessions          ChatSession[]
+  // Phase 3
+  flashcardDecks        FlashcardDeck[]
+  flashcards            Flashcard[]
+  notes                 Note[]
+  liveExamParticipation LiveExamParticipant[]
+  // Phase 4
+  isRevisionMode        Boolean               @default(false)
+  topicPerformances     TopicPerformance[]
+}
+
+model Paper {
+  code         String     @id
+  name         String
+  syllabusJson Json?
+  subjects     Subject[]
+  questions    Question[]
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  paperCode String
+  name      String
+  weight    Float?
+  parentId  String?
+  paper     Paper    @relation(fields: [paperCode], references: [code])
+  topics    Topic[]
+}
+
+model Topic {
+  id             String     @id @default(uuid())
+  subjectId      String
+  name           String
+  difficulty     String?
+  estimatedHours Float?
+  subject        Subject    @relation(fields: [subjectId], references: [id])
+  questions         Question[]
+  topicPerformances TopicPerformance[]
+}
+
+model Question {
+  id            String             @id @default(uuid())
+  paperCode     String
+  topicId       String
+  type          String // MCQ, MSQ, NAT
+  statementMd   String
+  optionsJson   Json?
+  correctAnswer String
+  marks         Int
+  source        String?
+  pyqYear       Int?
+  explanation   String?            @db.Text
+  paper         Paper              @relation(fields: [paperCode], references: [code])
+  topic         Topic              @relation(fields: [topicId], references: [id])
+  solutions     Solution[]
+  responses     QuestionResponse[]
+}
+
+model Solution {
+  id         String    @id @default(uuid())
+  questionId String
+  stepsMd    String
+  shortcutMd String?
+  author     String?
+  verifiedAt DateTime?
+  question   Question  @relation(fields: [questionId], references: [id])
+}
+
+model StudyPlan {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  paperCode       String?
+  planJson        Json
+  targetDate      DateTime?
+  dailyHours      Float?
+  targetScore     Float?
+  completedTopics Json?
+  lastAdaptedAt   DateTime  @default(now())
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+model TestAttempt {
+  id            String             @id @default(uuid())
+  userId        String
+  testType      String // full-length, sectional, topic
+  paperCode     String
+  questionsJson Json
+  totalMarks    Float?
+  scored        Float?
+  timeTaken     Int? // in seconds
+  createdAt     DateTime           @default(now())
+  user          User               @relation(fields: [userId], references: [id])
+  responses     QuestionResponse[]
+}
+
+model QuestionResponse {
+  id           String      @id @default(uuid())
+  attemptId    String
+  questionId   String
+  answer       String
+  isCorrect    Boolean
+  timeTakenSec Int
+  marksAwarded Float
+  attempt      TestAttempt @relation(fields: [attemptId], references: [id])
+  question     Question    @relation(fields: [questionId], references: [id])
+}
+
+model FlashcardProgress {
+  id             String   @id @default(uuid())
+  userId         String
+  cardId         String
+  nextReviewDate DateTime
+  easeFactor     Float
+  intervalDays   Int
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model DoubtHistory {
+  id           String   @id @default(uuid())
+  userId       String
+  questionText String
+  imageUrl     String?
+  solutionMd   String
+  subject      String?
+  topic        String?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model ChatSession {
+  id        String        @id @default(uuid())
+  userId    String
+  title     String        @default("New Chat")
+  subject   String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id])
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id        String      @id @default(uuid())
+  sessionId String
+  role      String // user or assistant
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Embedding {
+  id         String                      @id @default(uuid())
+  sourceType String
+  sourceId   String
+  chunkText  String
+  embedding  Unsupported("vector(3072)")
+}
+
+// ─── Phase 3 Models ───────────────────────────────────────────────
+
+model FlashcardDeck {
+  id          String      @id @default(uuid())
+  userId      String
+  title       String
+  subject     String?
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id])
+  cards       Flashcard[]
+}
+
+model Flashcard {
+  id             String              @id @default(uuid())
+  deckId         String
+  userId         String
+  frontMd        String              @db.Text
+  backMd         String              @db.Text
+  subject        String?
+  tags           String[]
+  // SM-2 fields
+  easeFactor     Float               @default(2.5)
+  intervalDays   Int                 @default(1)
+  repetitions    Int                 @default(0)
+  nextReviewAt   DateTime            @default(now())
+  createdAt      DateTime            @default(now())
+  deck           FlashcardDeck       @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  user           User                @relation(fields: [userId], references: [id])
+  reviewLogs     FlashcardReview[]
+}
+
+model FlashcardReview {
+  id         String    @id @default(uuid())
+  cardId     String
+  userId     String
+  quality    Int       // 0-5 SM-2 quality rating
+  reviewedAt DateTime  @default(now())
+  card       Flashcard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  userId     String
+  title      String
+  contentMd  String   @db.Text
+  summaryMd  String?  @db.Text
+  subject    String?
+  tags       String[]
+  isPublic   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Shortcut {
+  id          String   @id @default(uuid())
+  subject     String
+  title       String
+  contentMd   String   @db.Text
+  tags        String[]
+  difficulty  String?
+  gateYear    Int?
+  createdAt   DateTime @default(now())
+}
+
+model LiveExamEvent {
+  id             String                 @id @default(uuid())
+  title          String
+  paperCode      String
+  scheduledAt    DateTime
+  durationMins   Int                    @default(180)
+  questionsJson  Json
+  status         String                 @default("upcoming") // upcoming | live | completed
+  createdAt      DateTime               @default(now())
+  participants   LiveExamParticipant[]
+}
+
+model LiveExamParticipant {
+  id          String        @id @default(uuid())
+  eventId     String
+  userId      String
+  score       Float?
+  totalMarks  Float?
+  percentile  Float?
+  timeTaken   Int?
+  submittedAt DateTime?
+  event       LiveExamEvent @relation(fields: [eventId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+
+  @@unique([eventId, userId])
+}
+
+// ─── Phase 4 Models ───────────────────────────────────────────────
+
+model TopicPerformance {
+  id             String   @id @default(uuid())
+  userId         String
+  topicId        String
+  accuracy       Float
+  totalAttempted Int
+  averageTimeSec Float
+  lastAttempted  DateTime
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic          Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, topicId])
+}
